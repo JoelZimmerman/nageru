@@ -1,0 +1,521 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>AudioExpandedView</class>
+ <widget class="QWidget" name="AudioExpandedView">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>312</width>
+    <height>434</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>AudioExpandedView</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_6">
+   <item>
+    <widget class="EllipsisLabel" name="bus_desc_label">
+     <property name="font">
+      <font>
+       <family>DejaVu Sans</family>
+       <weight>75</weight>
+       <bold>true</bold>
+       <underline>true</underline>
+      </font>
+     </property>
+     <property name="text">
+      <string>Bus name</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="main_layout">
+     <item>
+      <layout class="QVBoxLayout" name="settings_layout">
+       <item>
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="locut_offseter">
+         <property name="leftMargin">
+          <number>8</number>
+         </property>
+         <item>
+          <widget class="QCheckBox" name="locut_enabled">
+           <property name="text">
+            <string>Lo-cut</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="treble_layout">
+         <item>
+          <widget class="QDial" name="treble_knob">
+           <property name="maximumSize">
+            <size>
+             <width>31</width>
+             <height>31</height>
+            </size>
+           </property>
+           <property name="minimum">
+            <number>-150</number>
+           </property>
+           <property name="maximum">
+            <number>150</number>
+           </property>
+           <property name="notchTarget">
+            <double>60.000000000000000</double>
+           </property>
+           <property name="notchesVisible">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="treble_label">
+           <property name="text">
+            <string>Treble: +0.0 dB</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="mid_layout">
+         <item>
+          <widget class="QDial" name="mid_knob">
+           <property name="maximumSize">
+            <size>
+             <width>31</width>
+             <height>31</height>
+            </size>
+           </property>
+           <property name="minimum">
+            <number>-150</number>
+           </property>
+           <property name="maximum">
+            <number>150</number>
+           </property>
+           <property name="notchTarget">
+            <double>60.000000000000000</double>
+           </property>
+           <property name="notchesVisible">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="mid_label">
+           <property name="text">
+            <string>Mid: +0.0 dB</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="bass_layout">
+         <item>
+          <widget class="QDial" name="bass_knob">
+           <property name="maximumSize">
+            <size>
+             <width>31</width>
+             <height>31</height>
+            </size>
+           </property>
+           <property name="minimum">
+            <number>-150</number>
+           </property>
+           <property name="maximum">
+            <number>150</number>
+           </property>
+           <property name="notchTarget">
+            <double>60.000000000000000</double>
+           </property>
+           <property name="notchesVisible">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="bass_label">
+           <property name="text">
+            <string>Bass: +0.0 dB</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="Line" name="line">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="gainstaging_auto_offseter">
+         <property name="leftMargin">
+          <number>8</number>
+         </property>
+         <item>
+          <widget class="QCheckBox" name="gainstaging_auto_checkbox">
+           <property name="text">
+            <string>Auto gain staging</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="gainstaging_layout">
+         <item>
+          <widget class="QDial" name="gainstaging_knob">
+           <property name="maximumSize">
+            <size>
+             <width>31</width>
+             <height>31</height>
+            </size>
+           </property>
+           <property name="minimum">
+            <number>-300</number>
+           </property>
+           <property name="maximum">
+            <number>300</number>
+           </property>
+           <property name="notchTarget">
+            <double>60.000000000000000</double>
+           </property>
+           <property name="notchesVisible">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="gainstaging_db_display">
+           <property name="text">
+            <string>Gain: +0.0 dB</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="Line" name="line_2">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="compressor_centerer">
+         <item>
+          <spacer name="horizontalSpacer">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="compressor_enabled">
+           <property name="text">
+            <string>Compressor</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_2">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="compressor_controls_layout">
+         <item>
+          <layout class="QVBoxLayout" name="threshold_layout">
+           <item>
+            <widget class="QLabel" name="threshold_heading">
+             <property name="text">
+              <string>Threshold</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="compressor_threshold_knob_centerer">
+             <item>
+              <widget class="QDial" name="compressor_threshold_knob">
+               <property name="maximumSize">
+                <size>
+                 <width>64</width>
+                 <height>64</height>
+                </size>
+               </property>
+               <property name="minimum">
+                <number>-400</number>
+               </property>
+               <property name="maximum">
+                <number>0</number>
+               </property>
+               <property name="value">
+                <number>-260</number>
+               </property>
+               <property name="notchTarget">
+                <double>30.000000000000000</double>
+               </property>
+               <property name="notchesVisible">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <widget class="QLabel" name="compressor_threshold_db_display">
+             <property name="text">
+              <string>-10.0 dB</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QVBoxLayout" name="reduction_layout" stretch="0,1">
+           <property name="spacing">
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="QLabel" name="reduction_header">
+             <property name="text">
+              <string>Reduction</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="reduction_meter_centerer">
+             <item>
+              <widget class="CompressionReductionMeter" name="reduction_meter" native="true">
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="vu_layout" stretch="1,0">
+       <item>
+        <layout class="QHBoxLayout" name="vu_centerer">
+         <item>
+          <widget class="VUMeter" name="peak_meter" native="true">
+           <property name="maximumSize">
+            <size>
+             <width>20</width>
+             <height>16777215</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="ClickableLabel" name="peak_display_label">
+         <property name="minimumSize">
+          <size>
+           <width>60</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>-40.0</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="fader_layout" stretch="0,1,0">
+       <item>
+        <layout class="QHBoxLayout" name="mute_centerer">
+         <property name="spacing">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="QPushButton" name="mute_button">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Maximum" vsizetype="MinimumExpanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>40</width>
+             <height>22</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>8</pointsize>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QPushButton:checked { background: rgba(255,0,0,80); }</string>
+           </property>
+           <property name="text">
+            <string>Mute</string>
+           </property>
+           <property name="checkable">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="fader_centerer">
+         <item>
+          <widget class="NonLinearFader" name="fader">
+           <property name="maximum">
+            <number>1000</number>
+           </property>
+           <property name="singleStep">
+            <number>10</number>
+           </property>
+           <property name="pageStep">
+            <number>100</number>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QLabel" name="fader_label">
+         <property name="minimumSize">
+          <size>
+           <width>60</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>+0.0 dB</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>VUMeter</class>
+   <extends>QWidget</extends>
+   <header>vumeter.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ClickableLabel</class>
+   <extends>QLabel</extends>
+   <header>clickable_label.h</header>
+  </customwidget>
+  <customwidget>
+   <class>NonLinearFader</class>
+   <extends>QSlider</extends>
+   <header>nonlinear_fader.h</header>
+  </customwidget>
+  <customwidget>
+   <class>EllipsisLabel</class>
+   <extends>QLabel</extends>
+   <header>ellipsis_label.h</header>
+  </customwidget>
+  <customwidget>
+   <class>CompressionReductionMeter</class>
+   <extends>QWidget</extends>
+   <header>compression_reduction_meter.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

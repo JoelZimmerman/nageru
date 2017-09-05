@@ -1,0 +1,35 @@
+// Used to serialize state between runs. Currently only audio input mappings,
+// but in theory we could do the entire mix, video inputs, etc.
+
+syntax = "proto2";
+
+// Similar to DeviceSpec, but only devices that are used are stored,
+// and contains additional information that will help us try to map
+// to the right device even if the devices have moved around.
+message DeviceSpecProto {
+	// Members from DeviceSpec itself.
+	enum InputSourceType { SILENCE = 0; CAPTURE_CARD = 1; ALSA_INPUT = 2; };
+	optional InputSourceType type = 1;
+	optional int32 index = 2;
+
+	// Additional information.
+	optional string display_name = 3;
+	optional string alsa_name = 4;  // Only for ALSA devices.
+	optional string alsa_info = 5;  // Only for ALSA devices.
+	optional int32 num_channels = 6;  // Only for ALSA devices.
+	optional string address = 7;  // Only for ALSA devices.
+}
+
+// Corresponds to InputMapping::Bus.
+message BusProto {
+	optional string name = 1;
+	optional int32 device_index = 2;  // Index into the "devices" array.
+	optional int32 source_channel_left = 3;
+	optional int32 source_channel_right = 4;
+}
+
+// Corresponds to InputMapping.
+message InputMappingProto {
+	repeated DeviceSpecProto device = 1;
+	repeated BusProto bus = 2;
+}

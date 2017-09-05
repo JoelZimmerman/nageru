@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>AboutDialog</class>
+ <widget class="QDialog" name="AboutDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>684</width>
+    <height>544</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>About Nageru</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>&lt;p&gt;&lt;b&gt;Nageru 1.6.2&lt;/b&gt;&lt;/p&gt;
+
+&lt;p&gt;Realtime video mixer&lt;/p&gt;</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QTextEdit" name="textEdit">
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+     <property name="html">
+      <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;/head&gt;&lt;body&gt;
+&lt;p&gt;
+Nageru is Copyright (C) 2015 Steinar H. Gunderson &amp;lt;steinar+nageru@gunderson.no&amp;gt;&lt;br /&gt;
+Portions Copyright (C) 2003 Rune Holm.&lt;br /&gt;
+Portions Copyright (C) 2010-2011 Fons Adriaensen &amp;lt;fons@linuxaudio.org&amp;gt;&lt;br /&gt;
+Portions Copyright (C) 2012-2015 Fons Adriaensen &amp;lt;fons@linuxaudio.org&amp;gt;&lt;br /&gt;
+Portions Copyright (C) 2008-2015 Fons Adriaensen &amp;lt;fons@linuxaudio.org&amp;gt;&lt;br /&gt;
+Portions Copyright (c) 2007-2013 Intel Corporation. All Rights Reserved.&lt;/p&gt;
+
+&lt;p&gt;This program is free software: you can redistribute it and/or modify&lt;br /&gt;
+it under the terms of the GNU General Public License as published by&lt;br /&gt;
+the Free Software Foundation, either version 3 of the License, or&lt;br /&gt;
+(at your option) any later version.&lt;/p&gt;
+
+&lt;p&gt;This program is distributed in the hope that it will be useful,&lt;br /&gt;
+but WITHOUT ANY WARRANTY; without even the implied warranty of&lt;br /&gt;
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the&lt;br /&gt;
+GNU General Public License for more details.&lt;/p&gt;
+
+&lt;p&gt;You should have received a copy of the GNU General Public License&lt;br /&gt;
+along with this program. If not, see &amp;lt;&lt;a href=&quot;http://www.gnu.org/licenses/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://www.gnu.org/licenses/&lt;/span&gt;&lt;/a&gt;&amp;gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;Portions of h264encode.h and h264encode.cpp:&lt;/p&gt;
+
+&lt;p&gt;Copyright (c) 2007-2013 Intel Corporation. All Rights Reserved.&lt;/p&gt;
+
+&lt;p&gt;Permission is hereby granted, free of charge, to any person obtaining a&lt;br /&gt;
+copy of this software and associated documentation files (the&lt;br /&gt;
+&amp;quot;Software&amp;quot;), to deal in the Software without restriction, including&lt;br /&gt;
+without limitation the rights to use, copy, modify, merge, publish,&lt;br /&gt;
+distribute, sub license, and/or sell copies of the Software, and to&lt;br /&gt;
+permit persons to whom the Software is furnished to do so, subject to&lt;br /&gt;
+the following conditions:&lt;/p&gt;
+
+&lt;p&gt;The above copyright notice and this permission notice (including the&lt;br /&gt;
+next paragraph) shall be included in all copies or substantial portions&lt;br /&gt;
+of the Software.&lt;/p&gt;
+
+&lt;p&gt;THE SOFTWARE IS PROVIDED &amp;quot;AS IS&amp;quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS&lt;br /&gt;
+OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF&lt;br /&gt;
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT.&lt;br /&gt;
+IN NO EVENT SHALL PRECISION INSIGHT AND/OR ITS SUPPLIERS BE LIABLE FOR&lt;br /&gt;
+ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,&lt;br /&gt;
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE&lt;br /&gt;
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;All files in decklink/:&lt;/p&gt;
+
+&lt;p&gt;Copyright (c) 2009 Blackmagic Design&lt;br /&gt;
+Copyright (c) 2015 Blackmagic Design&lt;/p&gt;
+
+&lt;p&gt;Permission is hereby granted, free of charge, to any person or organization
+obtaining a copy of the software and accompanying documentation covered by
+this license (the "Software") to use, reproduce, display, distribute,
+execute, and transmit the Software, and to prepare derivative works of the
+Software, and to permit third-parties to whom the Software is furnished to
+do so, all subject to the following:&lt;/p&gt;
+
+&lt;p&gt;The copyright notices in the Software and this entire statement, including
+the above license grant, this restriction and the following disclaimer,
+must be included in all copies of the Software, in whole or in part, and
+all derivative works of the Software, unless such copies or derivative
+works are solely in the form of machine-executable object code generated by
+a source language processor.&lt;/p&gt;
+
+&lt;p&gt;THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE, TITLE AND NON-INFRINGEMENT. IN NO EVENT
+SHALL THE COPYRIGHT HOLDERS OR ANYONE DISTRIBUTING THE SOFTWARE BE LIABLE
+FOR ANY DAMAGES OR OTHER LIABILITY, WHETHER IN CONTRACT, TORT OR OTHERWISE,
+ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE.&lt;/p&gt;
+
+&lt;/body&gt;&lt;/html&gt;
+       </string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QDialogButtonBox" name="button_box">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>button_box</sender>
+   <signal>accepted()</signal>
+   <receiver>Dialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>248</x>
+     <y>254</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>button_box</sender>
+   <signal>rejected()</signal>
+   <receiver>Dialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>316</x>
+     <y>260</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

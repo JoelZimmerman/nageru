@@ -1,0 +1,1557 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1089</width>
+    <height>664</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Nageru</string>
+  </property>
+  <widget class="QWidget" name="central_widget">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <layout class="QVBoxLayout" name="vertical_layout" stretch="0,0">
+      <item>
+       <layout class="QHBoxLayout" name="me_displays" stretch="0,0,0,0">
+        <item>
+         <layout class="QVBoxLayout" name="preview_vertical_layout">
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="GLWidget" name="me_preview" native="true">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+              <horstretch>1</horstretch>
+              <verstretch>1</verstretch>
+             </sizepolicy>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_preview">
+            <property name="text">
+             <string>Preview</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_2">
+          <property name="spacing">
+           <number>25</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>20</number>
+          </property>
+          <item>
+           <widget class="QPushButton" name="transition_btn1">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>115</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Cut</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="transition_btn2">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>115</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Fade</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="transition_btn3">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>115</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Wipe</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_5">
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="GLWidget" name="me_live" native="true">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+              <horstretch>1</horstretch>
+              <verstretch>1</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="sizeIncrement">
+             <size>
+              <width>16</width>
+              <height>9</height>
+             </size>
+            </property>
+            <property name="baseSize">
+             <size>
+              <width>16</width>
+              <height>9</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_live">
+            <property name="text">
+             <string>Live</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QVBoxLayout" name="audio_meters">
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="CorrelationMeter" name="correlation_meter" native="true">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>14</height>
+             </size>
+            </property>
+            <property name="palette">
+             <palette>
+              <active>
+               <colorrole role="Base">
+                <brush brushstyle="SolidPattern">
+                 <color alpha="255">
+                  <red>255</red>
+                  <green>255</green>
+                  <blue>255</blue>
+                 </color>
+                </brush>
+               </colorrole>
+               <colorrole role="Window">
+                <brush brushstyle="SolidPattern">
+                 <color alpha="255">
+                  <red>239</red>
+                  <green>0</green>
+                  <blue>4</blue>
+                 </color>
+                </brush>
+               </colorrole>
+              </active>
+              <inactive>
+               <colorrole role="Base">
+                <brush brushstyle="SolidPattern">
+                 <color alpha="255">
+                  <red>255</red>
+                  <green>255</green>
+                  <blue>255</blue>
+                 </color>
+                </brush>
+               </colorrole>
+               <colorrole role="Window">
+                <brush brushstyle="SolidPattern">
+                 <color alpha="255">
+                  <red>239</red>
+                  <green>0</green>
+                  <blue>4</blue>
+                 </color>
+                </brush>
+               </colorrole>
+              </inactive>
+              <disabled>
+               <colorrole role="Base">
+                <brush brushstyle="SolidPattern">
+                 <color alpha="255">
+                  <red>239</red>
+                  <green>0</green>
+                  <blue>4</blue>
+                 </color>
+                </brush>
+               </colorrole>
+               <colorrole role="Window">
+                <brush brushstyle="SolidPattern">
+                 <color alpha="255">
+                  <red>239</red>
+                  <green>0</green>
+                  <blue>4</blue>
+                 </color>
+                </brush>
+               </colorrole>
+              </disabled>
+             </palette>
+            </property>
+            <property name="autoFillBackground">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="vu_meters">
+            <item>
+             <layout class="QVBoxLayout" name="vu_meter_vertical_layout" stretch="1,0">
+              <property name="leftMargin">
+               <number>0</number>
+              </property>
+              <property name="bottomMargin">
+               <number>4</number>
+              </property>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout">
+                <property name="bottomMargin">
+                 <number>0</number>
+                </property>
+                <item>
+                 <widget class="VUMeter" name="vu_meter" native="true">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>1</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>16</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="sizeIncrement">
+                   <size>
+                    <width>1</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="baseSize">
+                   <size>
+                    <width>0</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="palette">
+                   <palette>
+                    <active>
+                     <colorrole role="Base">
+                      <brush brushstyle="SolidPattern">
+                       <color alpha="255">
+                        <red>255</red>
+                        <green>255</green>
+                        <blue>255</blue>
+                       </color>
+                      </brush>
+                     </colorrole>
+                     <colorrole role="Window">
+                      <brush brushstyle="SolidPattern">
+                       <color alpha="255">
+                        <red>5</red>
+                        <green>239</green>
+                        <blue>111</blue>
+                       </color>
+                      </brush>
+                     </colorrole>
+                    </active>
+                    <inactive>
+                     <colorrole role="Base">
+                      <brush brushstyle="SolidPattern">
+                       <color alpha="255">
+                        <red>255</red>
+                        <green>255</green>
+                        <blue>255</blue>
+                       </color>
+                      </brush>
+                     </colorrole>
+                     <colorrole role="Window">
+                      <brush brushstyle="SolidPattern">
+                       <color alpha="255">
+                        <red>5</red>
+                        <green>239</green>
+                        <blue>111</blue>
+                       </color>
+                      </brush>
+                     </colorrole>
+                    </inactive>
+                    <disabled>
+                     <colorrole role="Base">
+                      <brush brushstyle="SolidPattern">
+                       <color alpha="255">
+                        <red>5</red>
+                        <green>239</green>
+                        <blue>111</blue>
+                       </color>
+                      </brush>
+                     </colorrole>
+                     <colorrole role="Window">
+                      <brush brushstyle="SolidPattern">
+                       <color alpha="255">
+                        <red>5</red>
+                        <green>239</green>
+                        <blue>111</blue>
+                       </color>
+                      </brush>
+                     </colorrole>
+                    </disabled>
+                   </palette>
+                  </property>
+                  <property name="autoFillBackground">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <widget class="ClickableLabel" name="peak_display">
+                <property name="minimumSize">
+                 <size>
+                  <width>30</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>-0.0</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="lra_vertical_layout" stretch="1,0">
+              <property name="spacing">
+               <number>3</number>
+              </property>
+              <property name="leftMargin">
+               <number>0</number>
+              </property>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_2">
+                <item>
+                 <widget class="LRAMeter" name="lra_meter" native="true">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>24</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="palette">
+                   <palette>
+                    <active>
+                     <colorrole role="Base">
+                      <brush brushstyle="SolidPattern">
+                       <color alpha="255">
+                        <red>255</red>
+                        <green>255</green>
+                        <blue>255</blue>
+                       </color>
+                      </brush>
+                     </colorrole>
+                     <colorrole role="Window">
+                      <brush brushstyle="SolidPattern">
+                       <color alpha="255">
+                        <red>0</red>
+                        <green>239</green>
+                        <blue>219</blue>
+                       </color>
+                      </brush>
+                     </colorrole>
+                    </active>
+                    <inactive>
+                     <colorrole role="Base">
+                      <brush brushstyle="SolidPattern">
+                       <color alpha="255">
+                        <red>255</red>
+                        <green>255</green>
+                        <blue>255</blue>
+                       </color>
+                      </brush>
+                     </colorrole>
+                     <colorrole role="Window">
+                      <brush brushstyle="SolidPattern">
+                       <color alpha="255">
+                        <red>0</red>
+                        <green>239</green>
+                        <blue>219</blue>
+                       </color>
+                      </brush>
+                     </colorrole>
+                    </inactive>
+                    <disabled>
+                     <colorrole role="Base">
+                      <brush brushstyle="SolidPattern">
+                       <color alpha="255">
+                        <red>0</red>
+                        <green>239</green>
+                        <blue>219</blue>
+                       </color>
+                      </brush>
+                     </colorrole>
+                     <colorrole role="Window">
+                      <brush brushstyle="SolidPattern">
+                       <color alpha="255">
+                        <red>0</red>
+                        <green>239</green>
+                        <blue>219</blue>
+                       </color>
+                      </brush>
+                     </colorrole>
+                    </disabled>
+                   </palette>
+                  </property>
+                  <property name="autoFillBackground">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <widget class="QPushButton" name="reset_meters_button">
+                <property name="maximumSize">
+                 <size>
+                  <width>30</width>
+                  <height>20</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>RST</string>
+                </property>
+                <property name="checked">
+                 <bool>false</bool>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QStackedWidget" name="audio_views">
+        <property name="currentIndex">
+         <number>0</number>
+        </property>
+        <widget class="QWidget" name="compact_audio_view">
+         <layout class="QVBoxLayout" name="compact_audio_layout">
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QWidget" name="compact_header" native="true">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>8</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_3">
+             <property name="spacing">
+              <number>0</number>
+             </property>
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QLabel" name="compact_label">
+               <property name="text">
+                <string>Compact audio view  </string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QToolButton" name="compact_prev_page">
+               <property name="enabled">
+                <bool>true</bool>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>15</width>
+                 <height>15</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>...</string>
+               </property>
+               <property name="autoRaise">
+                <bool>true</bool>
+               </property>
+               <property name="arrowType">
+                <enum>Qt::LeftArrow</enum>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QToolButton" name="compact_next_page">
+               <property name="maximumSize">
+                <size>
+                 <width>15</width>
+                 <height>15</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>...</string>
+               </property>
+               <property name="autoRaise">
+                <bool>true</bool>
+               </property>
+               <property name="arrowType">
+                <enum>Qt::RightArrow</enum>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="audiostrip" stretch="0,0">
+            <property name="spacing">
+             <number>6</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QScrollArea" name="fader_scroll">
+              <property name="frameShape">
+               <enum>QFrame::NoFrame</enum>
+              </property>
+              <property name="verticalScrollBarPolicy">
+               <enum>Qt::ScrollBarAlwaysOff</enum>
+              </property>
+              <property name="widgetResizable">
+               <bool>true</bool>
+              </property>
+              <widget class="QWidget" name="fader_scroll_contents">
+               <property name="geometry">
+                <rect>
+                 <x>0</x>
+                 <y>0</y>
+                 <width>505</width>
+                 <height>238</height>
+                </rect>
+               </property>
+               <layout class="QHBoxLayout" name="horizontalLayout_4">
+                <property name="spacing">
+                 <number>0</number>
+                </property>
+                <property name="leftMargin">
+                 <number>0</number>
+                </property>
+                <property name="topMargin">
+                 <number>0</number>
+                </property>
+                <property name="rightMargin">
+                 <number>0</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>0</number>
+                </property>
+                <item>
+                 <layout class="QHBoxLayout" name="faders">
+                  <property name="sizeConstraint">
+                   <enum>QLayout::SetFixedSize</enum>
+                  </property>
+                 </layout>
+                </item>
+                <item>
+                 <spacer name="fader_spacer">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+               </layout>
+              </widget>
+             </widget>
+            </item>
+            <item>
+             <layout class="QGridLayout" name="master_audio_strip" columnstretch="0,0,0,0,0,0">
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
+              <item row="2" column="3">
+               <widget class="QDial" name="compressor_threshold_knob">
+                <property name="minimumSize">
+                 <size>
+                  <width>64</width>
+                  <height>64</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>64</height>
+                 </size>
+                </property>
+                <property name="minimum">
+                 <number>-400</number>
+                </property>
+                <property name="maximum">
+                 <number>0</number>
+                </property>
+                <property name="value">
+                 <number>-260</number>
+                </property>
+                <property name="notchTarget">
+                 <double>30.000000000000000</double>
+                </property>
+                <property name="notchesVisible">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="5">
+               <widget class="QCheckBox" name="makeup_gain_auto_checkbox">
+                <property name="text">
+                 <string>Auto</string>
+                </property>
+                <property name="checked">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="3">
+               <widget class="QLabel" name="compressor_threshold_label">
+                <property name="text">
+                 <string>Compr. threshold</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="2">
+               <widget class="QLabel" name="gainstaging_label">
+                <property name="text">
+                 <string>Gain staging</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="3">
+               <widget class="QLabel" name="compressor_threshold_db_display">
+                <property name="text">
+                 <string>-26.0 dB</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="2">
+               <widget class="QDial" name="gainstaging_knob">
+                <property name="minimumSize">
+                 <size>
+                  <width>64</width>
+                  <height>64</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>64</height>
+                 </size>
+                </property>
+                <property name="minimum">
+                 <number>-300</number>
+                </property>
+                <property name="maximum">
+                 <number>300</number>
+                </property>
+                <property name="notchTarget">
+                 <double>60.000000000000000</double>
+                </property>
+                <property name="notchesVisible">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="2">
+               <widget class="QLabel" name="gainstaging_db_display">
+                <property name="text">
+                 <string>-0.0 dB</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="4">
+               <widget class="QLabel" name="limiter_threshold_db_display">
+                <property name="text">
+                 <string>-14.0 dB</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="4">
+               <widget class="QCheckBox" name="limiter_enabled">
+                <property name="text">
+                 <string>Enabled</string>
+                </property>
+                <property name="checked">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="2">
+               <widget class="QCheckBox" name="gainstaging_auto_checkbox">
+                <property name="text">
+                 <string>Auto</string>
+                </property>
+                <property name="checked">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="4">
+               <widget class="QDial" name="limiter_threshold_knob">
+                <property name="minimumSize">
+                 <size>
+                  <width>64</width>
+                  <height>64</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>64</height>
+                 </size>
+                </property>
+                <property name="minimum">
+                 <number>-400</number>
+                </property>
+                <property name="maximum">
+                 <number>0</number>
+                </property>
+                <property name="value">
+                 <number>-140</number>
+                </property>
+                <property name="notchTarget">
+                 <double>30.000000000000000</double>
+                </property>
+                <property name="notchesVisible">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="1">
+               <widget class="QLabel" name="locut_cutoff_display">
+                <property name="text">
+                 <string>120 Hz</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="1">
+               <widget class="QCheckBox" name="locut_enabled">
+                <property name="text">
+                 <string>Enabled</string>
+                </property>
+                <property name="checked">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="5">
+               <widget class="QLabel" name="makeup_gain_db_display">
+                <property name="text">
+                 <string>-0.0 dB</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="3">
+               <widget class="QCheckBox" name="compressor_enabled">
+                <property name="text">
+                 <string>Enabled</string>
+                </property>
+                <property name="checked">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <widget class="QLabel" name="locut_cutoff_label">
+                <property name="text">
+                 <string>Lo-cut (24dB/oct)</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1">
+               <spacer name="verticalSpacer">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeType">
+                 <enum>QSizePolicy::Expanding</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>20</width>
+                  <height>40</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item row="5" column="1">
+               <spacer name="verticalSpacer_2">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>20</width>
+                  <height>40</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item row="2" column="5">
+               <widget class="QDial" name="makeup_gain_knob">
+                <property name="minimumSize">
+                 <size>
+                  <width>64</width>
+                  <height>64</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>64</height>
+                 </size>
+                </property>
+                <property name="minimum">
+                 <number>-150</number>
+                </property>
+                <property name="maximum">
+                 <number>150</number>
+                </property>
+                <property name="notchTarget">
+                 <double>30.000000000000000</double>
+                </property>
+                <property name="notchesVisible">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="4">
+               <widget class="QLabel" name="limiter_threshold_label">
+                <property name="text">
+                 <string>Limiter threshold</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="5">
+               <widget class="QLabel" name="makeup_gain_label">
+                <property name="text">
+                 <string>Makeup gain</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="1">
+               <widget class="QDial" name="locut_cutoff_knob">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>64</width>
+                  <height>64</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>64</height>
+                 </size>
+                </property>
+                <property name="maximum">
+                 <number>60</number>
+                </property>
+                <property name="value">
+                 <number>26</number>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="preview_displays" stretch="0">
+            <item>
+             <spacer name="horizontalSpacer">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeType">
+               <enum>QSizePolicy::Preferred</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>0</width>
+                <height>40</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="full_audio_view">
+         <layout class="QVBoxLayout" name="verticalLayout_3">
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <item>
+           <layout class="QHBoxLayout" name="full_header">
+            <property name="spacing">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QLabel" name="full_label">
+              <property name="text">
+               <string>Full audio view  </string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QToolButton" name="full_prev_page">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>15</width>
+                <height>15</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>...</string>
+              </property>
+              <property name="autoRaise">
+               <bool>true</bool>
+              </property>
+              <property name="arrowType">
+               <enum>Qt::LeftArrow</enum>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QToolButton" name="full_next_page">
+              <property name="maximumSize">
+               <size>
+                <width>15</width>
+                <height>15</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>...</string>
+              </property>
+              <property name="autoRaise">
+               <bool>true</bool>
+              </property>
+              <property name="arrowType">
+               <enum>Qt::RightArrow</enum>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="audiostrip_2" stretch="0,0">
+            <property name="spacing">
+             <number>6</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QScrollArea" name="bus_scroll">
+              <property name="frameShape">
+               <enum>QFrame::NoFrame</enum>
+              </property>
+              <property name="verticalScrollBarPolicy">
+               <enum>Qt::ScrollBarAlwaysOff</enum>
+              </property>
+              <property name="widgetResizable">
+               <bool>true</bool>
+              </property>
+              <widget class="QWidget" name="bus_scroll_contents">
+               <property name="geometry">
+                <rect>
+                 <x>0</x>
+                 <y>0</y>
+                 <width>46</width>
+                 <height>20</height>
+                </rect>
+               </property>
+               <layout class="QHBoxLayout" name="horizontalLayout_5">
+                <property name="spacing">
+                 <number>0</number>
+                </property>
+                <property name="leftMargin">
+                 <number>0</number>
+                </property>
+                <property name="topMargin">
+                 <number>0</number>
+                </property>
+                <property name="rightMargin">
+                 <number>0</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>0</number>
+                </property>
+                <item>
+                 <layout class="QHBoxLayout" name="buses">
+                  <property name="sizeConstraint">
+                   <enum>QLayout::SetFixedSize</enum>
+                  </property>
+                 </layout>
+                </item>
+                <item>
+                 <spacer name="buses_spacer">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>723</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+               </layout>
+              </widget>
+             </widget>
+            </item>
+            <item>
+             <layout class="QGridLayout" name="master_audio_strip_2" columnstretch="0,0,0,0">
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
+              <item row="3" column="1">
+               <widget class="QLabel" name="locut_cutoff_display_2">
+                <property name="text">
+                 <string>120 Hz</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="3">
+               <widget class="QLabel" name="makeup_gain_db_display_2">
+                <property name="text">
+                 <string>-0.0 dB</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="2">
+               <widget class="QLabel" name="limiter_threshold_db_display_2">
+                <property name="text">
+                 <string>-14.0 dB</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="1">
+               <widget class="QDial" name="locut_cutoff_knob_2">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>64</width>
+                  <height>64</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>64</height>
+                 </size>
+                </property>
+                <property name="maximum">
+                 <number>60</number>
+                </property>
+                <property name="value">
+                 <number>26</number>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="2">
+               <widget class="QCheckBox" name="limiter_enabled_2">
+                <property name="text">
+                 <string>Enabled</string>
+                </property>
+                <property name="checked">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="2">
+               <widget class="QDial" name="limiter_threshold_knob_2">
+                <property name="minimumSize">
+                 <size>
+                  <width>64</width>
+                  <height>64</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>64</height>
+                 </size>
+                </property>
+                <property name="minimum">
+                 <number>-400</number>
+                </property>
+                <property name="maximum">
+                 <number>0</number>
+                </property>
+                <property name="value">
+                 <number>-140</number>
+                </property>
+                <property name="notchTarget">
+                 <double>30.000000000000000</double>
+                </property>
+                <property name="notchesVisible">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="3">
+               <widget class="QCheckBox" name="makeup_gain_auto_checkbox_2">
+                <property name="text">
+                 <string>Auto</string>
+                </property>
+                <property name="checked">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="1">
+               <spacer name="verticalSpacer_4">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>20</width>
+                  <height>40</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item row="1" column="1">
+               <widget class="QLabel" name="locut_cutoff_label_2">
+                <property name="text">
+                 <string>Lo-cut (24dB/oct)</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1">
+               <spacer name="verticalSpacer_3">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeType">
+                 <enum>QSizePolicy::Expanding</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>20</width>
+                  <height>40</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item row="2" column="3">
+               <widget class="QDial" name="makeup_gain_knob_2">
+                <property name="minimumSize">
+                 <size>
+                  <width>64</width>
+                  <height>64</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>64</height>
+                 </size>
+                </property>
+                <property name="minimum">
+                 <number>-150</number>
+                </property>
+                <property name="maximum">
+                 <number>150</number>
+                </property>
+                <property name="notchTarget">
+                 <double>30.000000000000000</double>
+                </property>
+                <property name="notchesVisible">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="2">
+               <widget class="QLabel" name="limiter_threshold_label_2">
+                <property name="text">
+                 <string>Limiter threshold</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="3">
+               <widget class="QLabel" name="makeup_gain_label_2">
+                <property name="text">
+                 <string>Makeup gain</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1089</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="video_menu">
+    <property name="title">
+     <string>&amp;Video</string>
+    </property>
+    <widget class="QMenu" name="display_timecode_menu">
+     <property name="title">
+      <string>Display &amp;time code</string>
+     </property>
+     <addaction name="timecode_stream_action"/>
+     <addaction name="timecode_stdout_action"/>
+    </widget>
+    <widget class="QMenu" name="hdmi_sdi_output_device_menu">
+     <property name="title">
+      <string>HDMI/SDI output device</string>
+     </property>
+     <addaction name="separator"/>
+    </widget>
+    <widget class="QMenu" name="hdmi_sdi_output_resolution_menu">
+     <property name="title">
+      <string>HDMI/SDI output resolution</string>
+     </property>
+     <addaction name="separator"/>
+    </widget>
+    <addaction name="cut_action"/>
+    <addaction name="open_analyzer_action"/>
+    <addaction name="x264_bitrate_action"/>
+    <addaction name="hdmi_sdi_output_device_menu"/>
+    <addaction name="hdmi_sdi_output_resolution_menu"/>
+    <addaction name="display_timecode_menu"/>
+    <addaction name="exit_action"/>
+   </widget>
+   <widget class="QMenu" name="menu_Help">
+    <property name="title">
+     <string>&amp;Help</string>
+    </property>
+    <addaction name="manual_action"/>
+    <addaction name="about_action"/>
+   </widget>
+   <widget class="QMenu" name="menu_Audio">
+    <property name="title">
+     <string>&amp;Audio</string>
+    </property>
+    <addaction name="simple_audio_mode"/>
+    <addaction name="multichannel_audio_mode"/>
+    <addaction name="separator"/>
+    <addaction name="input_mapping_action"/>
+    <addaction name="midi_mapping_action"/>
+   </widget>
+   <addaction name="video_menu"/>
+   <addaction name="menu_Audio"/>
+   <addaction name="menu_Help"/>
+  </widget>
+  <action name="exit_action">
+   <property name="text">
+    <string>&amp;Exit</string>
+   </property>
+  </action>
+  <action name="cut_action">
+   <property name="text">
+    <string>&amp;Begin new video segment</string>
+   </property>
+  </action>
+  <action name="about_action">
+   <property name="text">
+    <string>&amp;About Nageru…</string>
+   </property>
+  </action>
+  <action name="x264_bitrate_action">
+   <property name="text">
+    <string>Change &amp;x264 bitrate…</string>
+   </property>
+  </action>
+  <action name="input_mapping_action">
+   <property name="text">
+    <string>&amp;Input mapping…</string>
+   </property>
+  </action>
+  <action name="simple_audio_mode">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Simple</string>
+   </property>
+  </action>
+  <action name="multichannel_audio_mode">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Multichannel</string>
+   </property>
+  </action>
+  <action name="midi_mapping_action">
+   <property name="text">
+    <string>Setup MIDI controller…</string>
+   </property>
+  </action>
+  <action name="manual_action">
+   <property name="text">
+    <string>Online &amp;manual…</string>
+   </property>
+  </action>
+  <action name="timecode_stream_action">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>In &amp;stream</string>
+   </property>
+  </action>
+  <action name="timecode_stdout_action">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>On standard &amp;output</string>
+   </property>
+  </action>
+  <action name="open_analyzer_action">
+   <property name="text">
+    <string>Open frame &amp;analyzer…</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>VUMeter</class>
+   <extends>QWidget</extends>
+   <header>vumeter.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ClickableLabel</class>
+   <extends>QLabel</extends>
+   <header>clickable_label.h</header>
+  </customwidget>
+  <customwidget>
+   <class>GLWidget</class>
+   <extends>QWidget</extends>
+   <header>glwidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>LRAMeter</class>
+   <extends>QWidget</extends>
+   <header>lrameter.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>CorrelationMeter</class>
+   <extends>QWidget</extends>
+   <header>correlation_meter.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

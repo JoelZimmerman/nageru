@@ -1,0 +1,117 @@
+// Mappings from MIDI controllers to the UI. (We don't really build
+// a more complicated data structure than this in Nageru itself either;
+// we just edit and match directly against the protobuf.)
+
+syntax = "proto2";
+
+// A single, given controller mapping.
+message MIDIControllerProto {
+	required int32 controller_number = 1;
+	// TODO: Add flags like invert here if/when we need them.
+}
+
+message MIDIButtonProto {
+	required int32 note_number = 1;
+}
+
+message MIDILightProto {
+	required int32 note_number = 1;
+}
+
+// All the mappings for a given a bus.
+message MIDIMappingBusProto {
+	// TODO: If we need support for lots of buses (i.e., more than the typical eight
+	// on a mixer), add a system for bus banks, like we have for controller banks.
+	// optional int32 bus_bank = 1;
+
+	optional MIDIControllerProto treble = 2;
+	optional MIDIControllerProto mid = 3;
+	optional MIDIControllerProto bass = 4;
+	optional MIDIControllerProto gain = 5;
+	optional MIDIControllerProto compressor_threshold = 6;
+	optional MIDIControllerProto fader = 7;
+
+	optional MIDIButtonProto toggle_mute = 8;
+	optional MIDIButtonProto toggle_locut = 9;
+	optional MIDIButtonProto toggle_auto_gain_staging = 10;
+	optional MIDIButtonProto toggle_compressor = 11;
+	optional MIDIButtonProto clear_peak = 12;
+
+	// These are really global (controller bank change affects all buss),
+	// but it's not uncommon that we'd want one button per bus to switch banks.
+	// E.g., if the user binds the “mute” button to “next bank”, they'd want every
+	// mute button on the mixer to do that, so they need one mapping per bus.
+	optional MIDIButtonProto prev_bank = 13;
+	optional MIDIButtonProto next_bank = 14;
+	optional MIDIButtonProto select_bank_1 = 15;
+	optional MIDIButtonProto select_bank_2 = 16;
+	optional MIDIButtonProto select_bank_3 = 17;
+	optional MIDIButtonProto select_bank_4 = 18;
+	optional MIDIButtonProto select_bank_5 = 19;
+	optional MIDIButtonProto toggle_limiter = 20;
+	optional MIDIButtonProto toggle_auto_makeup_gain = 21;
+
+	// These are also global (they belong to the master bus), and unlike
+	// the bank change commands, one would usually have only one of each,
+	// but there's no reason to limit them to one each, and the editor UI
+	// becomes simpler if they are the treated the same way as the bank
+	// commands.
+	optional MIDIControllerProto locut = 22;
+	optional MIDIControllerProto limiter_threshold = 23;
+	optional MIDIControllerProto makeup_gain = 24;
+
+	// Per-bus lights.
+	optional MIDILightProto is_muted = 25;
+	optional MIDILightProto locut_is_on = 26;
+	optional MIDILightProto auto_gain_staging_is_on = 27;
+	optional MIDILightProto compressor_is_on = 28;
+	optional MIDILightProto has_peaked = 29;
+
+	// Global lights. Same logic as above for why they're in this proto.
+	optional MIDILightProto bank_1_is_selected = 30;
+	optional MIDILightProto bank_2_is_selected = 31;
+	optional MIDILightProto bank_3_is_selected = 32;
+	optional MIDILightProto bank_4_is_selected = 33;
+	optional MIDILightProto bank_5_is_selected = 34;
+	optional MIDILightProto limiter_is_on = 35;
+	optional MIDILightProto auto_makeup_gain_is_on = 36;
+}
+
+// The top-level protobuf, containing all the bus mappings, as well as
+// more global settings.
+//
+// Since a typical mixer will have fewer physical controls than what Nageru
+// could use, Nageru supports so-called controller banks. A mapping can
+// optionally belong to a bank, and if so, that mapping is only active when
+// that bank is selected. The user can then select the current bank using
+// other mappings, typically by having some mixer button assigned to
+// “next bank”. This yields effective multiplexing of lesser-used controls.
+message MIDIMappingProto {
+	optional int32 num_controller_banks = 1 [default = 0];  // Max 5.
+
+	// Bus controller banks.
+	optional int32 treble_bank = 2;
+	optional int32 mid_bank = 3;
+	optional int32 bass_bank = 4;
+	optional int32 gain_bank = 5;
+	optional int32 compressor_threshold_bank = 6;
+	optional int32 fader_bank = 7;
+
+	// Bus button banks.
+	optional int32 toggle_mute_bank = 8;
+	optional int32 toggle_locut_bank = 9;
+	optional int32 toggle_auto_gain_staging_bank = 10;
+	optional int32 toggle_compressor_bank = 11;
+	optional int32 clear_peak_bank = 12;
+
+	// Global controller banks.
+	optional int32 locut_bank = 13;
+	optional int32 limiter_threshold_bank = 14;
+	optional int32 makeup_gain_bank = 15;
+
+	// Global buttons.
+	optional int32 toggle_limiter_bank = 16;
+	optional int32 toggle_auto_makeup_gain_bank = 17;
+
+	repeated MIDIMappingBusProto bus_mapping = 18;
+}
