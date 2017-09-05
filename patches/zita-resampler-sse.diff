@@ -1,0 +1,417 @@
+diff -ur orig/zita-resampler-1.3.0/libs/resampler.cc zita-resampler-1.3.0/libs/resampler.cc
+--- orig/zita-resampler-1.3.0/libs/resampler.cc	2012-10-26 22:58:55.000000000 +0200
++++ zita-resampler-1.3.0/libs/resampler.cc	2016-09-05 00:30:34.520191288 +0200
+@@ -24,6 +24,10 @@
+ #include <math.h>
+ #include <zita-resampler/resampler.h>
+ 
++#ifdef __SSE2__
++#include <xmmintrin.h>
++#endif
++
+ 
+ static unsigned int gcd (unsigned int a, unsigned int b)
+ {
+@@ -47,6 +51,118 @@
+     return 1; 
+ }
+ 
++#ifdef __SSE2__
++
++static inline float calc_mono_sample_sse (unsigned int hl,
++                                          const float *c1,
++                                          const float *c2,
++                                          const float *q1,
++                                          const float *q2)
++{
++    unsigned int   i;
++    __m128         denorm, s, w1, w2, shuf;
++
++    denorm = _mm_set1_ps (1e-20f);
++    s = denorm;
++    for (i = 0; i < hl; i += 4)
++    {
++	q2 -= 4;
++
++	// s += *q1 * c1 [i];
++	w1 = _mm_loadu_ps (&c1 [i]);
++	s = _mm_add_ps (s, _mm_mul_ps (_mm_loadu_ps (q1), w1));
++
++	// s += *q2 * c2 [i];
++	w2 = _mm_loadu_ps (&c2 [i]);
++	s = _mm_add_ps (s, _mm_mul_ps (_mm_loadu_ps (q2), _mm_shuffle_ps (w2, w2, _MM_SHUFFLE (0, 1, 2, 3))));
++
++	q1 += 4;
++    }
++    s = _mm_sub_ps (s, denorm);
++
++    // Add all the elements of s together into one. Adapted from
++    // http://stackoverflow.com/questions/6996764/fastest-way-to-do-horizontal-float-vector-sum-on-x86
++    shuf = _mm_shuffle_ps (s, s, _MM_SHUFFLE (2, 3, 0, 1));
++    s = _mm_add_ps (s, shuf);
++    s = _mm_add_ss (s, _mm_movehl_ps (shuf, s));
++    return _mm_cvtss_f32 (s);
++}
++
++// Note: This writes four floats instead of two (the last two are garbage).
++// The caller will need to make sure there is room for all four.
++static inline void calc_stereo_sample_sse (unsigned int hl,
++                                           const float *c1,
++                                           const float *c2,
++                                           const float *q1,
++                                           const float *q2,
++                                           float *out_data)
++{
++    unsigned int   i;
++    __m128         denorm, s, w1, w2;
++
++    denorm = _mm_set1_ps (1e-20f);
++    s = denorm;
++    for (i = 0; i < hl; i += 4)
++    {
++	q2 -= 8;
++
++	// s += *q1 * c1 [i];
++	w1 = _mm_loadu_ps (&c1 [i]);
++	s = _mm_add_ps (s, _mm_mul_ps (_mm_loadu_ps (q1),     _mm_unpacklo_ps (w1, w1)));
++	s = _mm_add_ps (s, _mm_mul_ps (_mm_loadu_ps (q1 + 4), _mm_unpackhi_ps (w1, w1)));
++
++	// s += *q2 * c2 [i];
++	w2 = _mm_loadu_ps (&c2 [i]);
++	s = _mm_add_ps (s, _mm_mul_ps (_mm_loadu_ps (q2 + 4), _mm_shuffle_ps (w2, w2, _MM_SHUFFLE (0, 0, 1, 1))));
++	s = _mm_add_ps (s, _mm_mul_ps (_mm_loadu_ps (q2),     _mm_shuffle_ps (w2, w2, _MM_SHUFFLE (2, 2, 3, 3))));
++
++	q1 += 8;
++    }
++    s = _mm_sub_ps (s, denorm);
++    s = _mm_add_ps (s, _mm_shuffle_ps (s, s, _MM_SHUFFLE (1, 0, 3, 2)));
++
++    _mm_storeu_ps (out_data, s);
++}
++
++static inline void calc_quad_sample_sse (int hl,
++                                         int nchan,
++                                         const float *c1,
++                                         const float *c2,
++                                         const float *q1,
++                                         const float *q2,
++                                         float *out_data)
++{
++    int            i;
++    __m128         denorm, s, w1, w2;
++
++    denorm = _mm_set1_ps (1e-20f);
++    s = denorm;
++    for (i = 0; i < hl; i += 4)
++    {
++	q2 -= 4 * nchan;
++
++	// s += *p1 * _c1 [i];
++	w1 = _mm_loadu_ps (&c1 [i]);
++	s = _mm_add_ps (s, _mm_mul_ps (_mm_loadu_ps (q1),             _mm_shuffle_ps (w1, w1, _MM_SHUFFLE (0, 0, 0, 0))));
++	s = _mm_add_ps (s, _mm_mul_ps (_mm_loadu_ps (q1 + nchan),     _mm_shuffle_ps (w1, w1, _MM_SHUFFLE (1, 1, 1, 1))));
++	s = _mm_add_ps (s, _mm_mul_ps (_mm_loadu_ps (q1 + 2 * nchan), _mm_shuffle_ps (w1, w1, _MM_SHUFFLE (2, 2, 2, 2))));
++	s = _mm_add_ps (s, _mm_mul_ps (_mm_loadu_ps (q1 + 3 * nchan), _mm_shuffle_ps (w1, w1, _MM_SHUFFLE (3, 3, 3, 3))));
++
++	// s += *p2 * _c2 [i];
++	w2 = _mm_loadu_ps (&c2 [i]);
++	s = _mm_add_ps (s, _mm_mul_ps (_mm_loadu_ps (q2 + 3 * nchan), _mm_shuffle_ps (w2, w2, _MM_SHUFFLE (0, 0, 0, 0))));
++	s = _mm_add_ps (s, _mm_mul_ps (_mm_loadu_ps (q2 + 2 * nchan), _mm_shuffle_ps (w2, w2, _MM_SHUFFLE (1, 1, 1, 1))));
++	s = _mm_add_ps (s, _mm_mul_ps (_mm_loadu_ps (q2 + nchan),     _mm_shuffle_ps (w2, w2, _MM_SHUFFLE (2, 2, 2, 2))));
++	s = _mm_add_ps (s, _mm_mul_ps (_mm_loadu_ps (q2),             _mm_shuffle_ps (w2, w2, _MM_SHUFFLE (3, 3, 3, 3))));
++
++	q1 += 4 * nchan;
++    }
++    s = _mm_sub_ps (s, denorm);
++
++    _mm_storeu_ps (out_data, s);
++}
++#endif
++
+ 
+ Resampler::Resampler (void) :
+     _table (0),
+@@ -213,18 +329,42 @@
+ 		{
+ 		    float *c1 = _table->_ctab + hl * ph;
+ 		    float *c2 = _table->_ctab + hl * (np - ph);
+-		    for (c = 0; c < _nchan; c++)
++#ifdef __SSE2__
++		    if ((hl % 4) == 0 && _nchan == 1)
++                    {
++			*out_data++ = calc_mono_sample_sse (hl, c1, c2, p1, p2);
++                    }
++		    else if ((hl % 4) == 0 && _nchan == 2)
+ 		    {
+-			float *q1 = p1 + c;
+-			float *q2 = p2 + c;
+-			float s = 1e-20f;
+-			for (i = 0; i < hl; i++)
++                        if (out_count >= 2)
++                        {
++			    calc_stereo_sample_sse (hl, c1, c2, p1, p2, out_data);
++                        }
++                        else
++                        {
++                            float tmp[4];
++			    calc_stereo_sample_sse (hl, c1, c2, p1, p2, tmp);
++                            out_data[0] = tmp[0];
++                            out_data[1] = tmp[1];
++                        }
++			out_data += 2;
++		    }
++		    else
++#endif
++                    {
++			for (c = 0; c < _nchan; c++)
+ 			{
+-			    q2 -= _nchan;
+-			    s += *q1 * c1 [i] + *q2 * c2 [i];
+-			    q1 += _nchan;
++			    float *q1 = p1 + c;
++			    float *q2 = p2 + c;
++			    float s = 1e-20f;
++			    for (i = 0; i < hl; i++)
++			    {
++				q2 -= _nchan;
++				s += *q1 * c1 [i] + *q2 * c2 [i];
++				q1 += _nchan;
++			    }
++			    *out_data++ = s - 1e-20f;
+ 			}
+-			*out_data++ = s - 1e-20f;
+ 		    }
+ 		}
+ 		else
+diff -ur orig/zita-resampler-1.3.0/libs/vresampler.cc zita-resampler-1.3.0/libs/vresampler.cc
+--- orig/zita-resampler-1.3.0/libs/vresampler.cc	2012-10-26 22:58:55.000000000 +0200
++++ zita-resampler-1.3.0/libs/vresampler.cc	2016-09-05 00:33:53.907511211 +0200
+@@ -25,6 +25,152 @@
+ #include <zita-resampler/vresampler.h>
+ 
+ 
++#ifdef __SSE2__
++
++#include <xmmintrin.h>
++
++static inline float calc_mono_sample_sse (int hl,
++                                          float b,
++                                          const float *p1,
++                                          const float *p2,
++                                          const float *q1,
++                                          const float *q2)
++{
++    int            i;
++    __m128         denorm, bs, s, c1, c2, w1, w2, shuf;
++
++    denorm = _mm_set1_ps (1e-25f);
++    bs = _mm_set1_ps (b);
++    s = denorm;
++    for (i = 0; i < hl; i += 4)
++    {
++	p2 -= 4;
++
++	// _c1 [i] = q1 [i] + b * (q1 [i + hl] - q1 [i]);
++	w1 = _mm_loadu_ps (&q1 [i]);
++	w2 = _mm_loadu_ps (&q1 [i + hl]);
++	c1 = _mm_add_ps (w1, _mm_mul_ps(bs, _mm_sub_ps (w2, w1)));
++
++	// _c2 [i] = q2 [i] + b * (q2 [i - hl] - q2 [i]);
++	w1 = _mm_loadu_ps (&q2 [i]);
++	w2 = _mm_loadu_ps (&q2 [i - hl]);
++	c2 = _mm_add_ps (w1, _mm_mul_ps(bs, _mm_sub_ps (w2, w1)));
++
++	// s += *p1 * _c1 [i];
++	s = _mm_add_ps (s, _mm_mul_ps (_mm_loadu_ps (p1), c1));
++
++	// s += *p2 * _c2 [i];
++	s = _mm_add_ps (s, _mm_mul_ps (_mm_loadu_ps (p2), _mm_shuffle_ps (c2, c2, _MM_SHUFFLE (0, 1, 2, 3))));
++
++	p1 += 4;
++    }
++    s = _mm_sub_ps (s, denorm);
++
++    // Add all the elements of s together into one. Adapted from
++    // http://stackoverflow.com/questions/6996764/fastest-way-to-do-horizontal-float-vector-sum-on-x86
++    shuf = _mm_shuffle_ps (s, s, _MM_SHUFFLE (2, 3, 0, 1));
++    s = _mm_add_ps (s, shuf);
++    s = _mm_add_ss (s, _mm_movehl_ps (shuf, s));
++    return _mm_cvtss_f32 (s);
++}
++
++// Note: This writes four floats instead of two (the last two are garbage).
++// The caller will need to make sure there is room for all four.
++static inline void calc_stereo_sample_sse (int hl,
++                                           float b,
++                                           const float *p1,
++                                           const float *p2,
++                                           const float *q1,
++                                           const float *q2,
++                                           float *out_data)
++{
++    int            i;
++    __m128         denorm, bs, s, c1, c2, w1, w2;
++
++    denorm = _mm_set1_ps (1e-25f);
++    bs = _mm_set1_ps (b);
++    s = denorm;
++    for (i = 0; i < hl; i += 4)
++    {
++	p2 -= 8;
++
++	// _c1 [i] = q1 [i] + b * (q1 [i + hl] - q1 [i]);
++	w1 = _mm_loadu_ps (&q1 [i]);
++	w2 = _mm_loadu_ps (&q1 [i + hl]);
++	c1 = _mm_add_ps (w1, _mm_mul_ps(bs, _mm_sub_ps (w2, w1)));
++
++	// _c2 [i] = q2 [i] + b * (q2 [i - hl] - q2 [i]);
++	w1 = _mm_loadu_ps (&q2 [i]);
++	w2 = _mm_loadu_ps (&q2 [i - hl]);
++	c2 = _mm_add_ps (w1, _mm_mul_ps(bs, _mm_sub_ps (w2, w1)));
++
++	// s += *p1 * _c1 [i];
++	s = _mm_add_ps (s, _mm_mul_ps (_mm_loadu_ps (p1),     _mm_unpacklo_ps (c1, c1)));
++	s = _mm_add_ps (s, _mm_mul_ps (_mm_loadu_ps (p1 + 4), _mm_unpackhi_ps (c1, c1)));
++
++	// s += *p2 * _c2 [i];
++	s = _mm_add_ps (s, _mm_mul_ps (_mm_loadu_ps (p2 + 4), _mm_shuffle_ps (c2, c2, _MM_SHUFFLE (0, 0, 1, 1))));
++	s = _mm_add_ps (s, _mm_mul_ps (_mm_loadu_ps (p2),     _mm_shuffle_ps (c2, c2, _MM_SHUFFLE (2, 2, 3, 3))));
++
++	p1 += 8;
++    }
++    s = _mm_sub_ps (s, denorm);
++    s = _mm_add_ps (s, _mm_shuffle_ps (s, s, _MM_SHUFFLE (1, 0, 3, 2)));
++
++    _mm_storeu_ps (out_data, s);
++}
++
++static inline void calc_quad_sample_sse (int hl,
++                                         int nchan,
++                                         float b,
++                                         const float *p1,
++                                         const float *p2,
++                                         const float *q1,
++                                         const float *q2,
++                                         float *out_data)
++{
++    int            i;
++    __m128         denorm, bs, s, c1, c2, w1, w2;
++
++    denorm = _mm_set1_ps (1e-25f);
++    bs = _mm_set1_ps (b);
++    s = denorm;
++    for (i = 0; i < hl; i += 4)
++    {
++	p2 -= 4 * nchan;
++
++	// _c1 [i] = q1 [i] + b * (q1 [i + hl] - q1 [i]);
++	w1 = _mm_loadu_ps (&q1 [i]);
++	w2 = _mm_loadu_ps (&q1 [i + hl]);
++	c1 = _mm_add_ps (w1, _mm_mul_ps(bs, _mm_sub_ps (w2, w1)));
++
++	// _c2 [i] = q2 [i] + b * (q2 [i - hl] - q2 [i]);
++	w1 = _mm_loadu_ps (&q2 [i]);
++	w2 = _mm_loadu_ps (&q2 [i - hl]);
++	c2 = _mm_add_ps (w1, _mm_mul_ps(bs, _mm_sub_ps (w2, w1)));
++
++	// s += *p1 * _c1 [i];
++	s = _mm_add_ps (s, _mm_mul_ps (_mm_loadu_ps (p1),             _mm_shuffle_ps (c1, c1, _MM_SHUFFLE (0, 0, 0, 0))));
++	s = _mm_add_ps (s, _mm_mul_ps (_mm_loadu_ps (p1 + nchan),     _mm_shuffle_ps (c1, c1, _MM_SHUFFLE (1, 1, 1, 1))));
++	s = _mm_add_ps (s, _mm_mul_ps (_mm_loadu_ps (p1 + 2 * nchan), _mm_shuffle_ps (c1, c1, _MM_SHUFFLE (2, 2, 2, 2))));
++	s = _mm_add_ps (s, _mm_mul_ps (_mm_loadu_ps (p1 + 3 * nchan), _mm_shuffle_ps (c1, c1, _MM_SHUFFLE (3, 3, 3, 3))));
++
++	// s += *p2 * _c2 [i];
++	s = _mm_add_ps (s, _mm_mul_ps (_mm_loadu_ps (p2 + 3 * nchan), _mm_shuffle_ps (c2, c2, _MM_SHUFFLE (0, 0, 0, 0))));
++	s = _mm_add_ps (s, _mm_mul_ps (_mm_loadu_ps (p2 + 2 * nchan), _mm_shuffle_ps (c2, c2, _MM_SHUFFLE (1, 1, 1, 1))));
++	s = _mm_add_ps (s, _mm_mul_ps (_mm_loadu_ps (p2 + nchan),     _mm_shuffle_ps (c2, c2, _MM_SHUFFLE (2, 2, 2, 2))));
++	s = _mm_add_ps (s, _mm_mul_ps (_mm_loadu_ps (p2),             _mm_shuffle_ps (c2, c2, _MM_SHUFFLE (3, 3, 3, 3))));
++
++	p1 += 4 * nchan;
++    }
++    s = _mm_sub_ps (s, denorm);
++
++    _mm_storeu_ps (out_data, s);
++}
++
++#endif
++
++
+ VResampler::VResampler (void) :
+     _table (0),
+     _nchan (0),
+@@ -163,7 +309,7 @@
+ 
+ int VResampler::process (void)
+ {
+-    unsigned int   k, np, in, nr, n, c;
++    unsigned int   j, k, np, in, nr, n, c;
+     int            i, hl, nz;
+     double         ph, dp, dd; 
+     float          a, b, *p1, *p2, *q1, *q2;
+@@ -212,23 +358,55 @@
+ 		    a = 1.0f - b;
+ 		    q1 = _table->_ctab + hl * k;
+ 		    q2 = _table->_ctab + hl * (np - k);
+-     		    for (i = 0; i < hl; i++)
++#ifdef __SSE2__
++		    if ((hl % 4) == 0 && _nchan == 1)
++		    {
++			*out_data++ = calc_mono_sample_sse (hl, b, p1, p2, q1, q2);
++		    }
++		    else if ((hl % 4) == 0 && _nchan == 2)
+ 		    {
+-                        _c1 [i] = a * q1 [i] + b * q1 [i + hl];
+-    		        _c2 [i] = a * q2 [i] + b * q2 [i - hl];
++			if (out_count >= 2)
++			{
++			    calc_stereo_sample_sse (hl, b, p1, p2, q1, q2, out_data);
++			}
++			else
++			{
++			    float tmp[4];
++			    calc_stereo_sample_sse (hl, b, p1, p2, q1, q2, tmp);
++			    out_data[0] = tmp[0];
++			    out_data[1] = tmp[1];
++			}
++			out_data += 2;
++		    }
++		    else if ((hl % 4) == 0 && (_nchan % 4) == 0)
++		    {
++			for (j = 0; j < _nchan; j += 4)
++			{
++			    calc_quad_sample_sse (hl, _nchan, b, p1 + j, p2 + j, q1, q2, out_data + j);
++			}
++			out_data += _nchan;
+ 		    }
+-		    for (c = 0; c < _nchan; c++)
++		    else
++#endif
+ 		    {
+-			q1 = p1 + c;
+-			q2 = p2 + c;
+-			a = 1e-25f;
+ 			for (i = 0; i < hl; i++)
+ 			{
+-			    q2 -= _nchan;
+-			    a += *q1 * _c1 [i] + *q2 * _c2 [i];
+-			    q1 += _nchan;
++			    _c1 [i] = a * q1 [i] + b * q1 [i + hl];
++			    _c2 [i] = a * q2 [i] + b * q2 [i - hl];
++			}
++			for (c = 0; c < _nchan; c++)
++			{
++			    q1 = p1 + c;
++			    q2 = p2 + c;
++			    a = 1e-25f;
++			    for (i = 0; i < hl; i++)
++			    {
++				q2 -= _nchan;
++				a += *q1 * _c1 [i] + *q2 * _c2 [i];
++				q1 += _nchan;
++			    }
++			    *out_data++ = a - 1e-25f;
+ 			}
+-			*out_data++ = a - 1e-25f;
+ 		    }
+ 		}
+ 		else

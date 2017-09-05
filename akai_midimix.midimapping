@@ -1,0 +1,402 @@
+# Example mapping for the Akai MIDImix. This one is written by hand,
+# and serves as a simple example of the basic features. The MIDImix
+# doesn't have a ton of controls, so not everything is mapped up,
+# and some "wrong" mappings need to be done; in particular, we've set up
+# two controller banks and switch between them with the BANK LEFT and
+# BANK RIGHT buttons (which are normally meant to switch between channels
+# 1–8 and 9–16, as I understand it).
+#
+# The mappings for the 270° pots on each bus are:
+#
+#    Bank 1: Treble, mid, bass
+#    Bank 2: Gain, compressor threshold, (globals)
+#
+# The “(globals)” here are only for use on the two rightmost buses:
+# The third pot on bus 7 controls the lo-cut cutoff, and the pot on
+# bus 8 controls the limiter threshold.
+#
+# The mute button controls muting (obviously) for that bus, and the solo
+# button (accessible by holding the global solo button and pressing the
+# mute button for the bus) is abused for toggling auto gain staging.
+#
+# The REC ARM button for each bus is abused to be a “has peaked” meter;
+# pressing it will reset the measurement.
+#
+# Finally, the faders work pretty much as you'd expect; each bus' fader
+# is connected to the volume for that bus, and the master fader is
+# connected to the global makeup gain.
+
+num_controller_banks: 2
+treble_bank: 0
+mid_bank: 0
+bass_bank: 0
+gain_bank: 1
+compressor_threshold_bank: 1
+locut_bank: 1
+limiter_threshold_bank: 1
+
+# Bus 1. We also store the master controller here.
+bus_mapping {
+	treble {
+		controller_number: 16
+	}
+	mid {
+		controller_number: 17
+	}
+	bass {
+		controller_number: 18
+	}
+	gain {
+		controller_number: 16
+	}
+	compressor_threshold {
+		controller_number: 17
+	}
+	fader {
+		controller_number: 19
+	}
+	toggle_mute {
+		note_number: 1
+	}
+	toggle_auto_gain_staging {
+		note_number: 2
+	}
+	clear_peak {
+		note_number: 3
+	}
+
+	# Master.
+	makeup_gain {
+		controller_number: 62
+	}
+	select_bank_1 {
+		note_number: 25  # Bank left.
+	}
+	select_bank_2 {
+		note_number: 26  # Bank right.
+	}
+
+	# Lights.
+	is_muted {
+		note_number: 1
+	}
+	auto_gain_staging_is_on {
+		note_number: 2
+	}
+	has_peaked {
+		note_number: 3
+	}
+
+	# Global lights.
+	bank_1_is_selected {
+		note_number: 25
+	}
+	bank_2_is_selected {
+		note_number: 26
+	}
+}
+
+# Bus 2.
+bus_mapping {
+	treble {
+		controller_number: 20
+	}
+	mid {
+		controller_number: 21
+	}
+	bass {
+		controller_number: 22
+	}
+	gain {
+		controller_number: 20
+	}
+	compressor_threshold {
+		controller_number: 21
+	}
+	fader {
+		controller_number: 23
+	}
+	toggle_mute {
+		note_number: 4
+	}
+	toggle_auto_gain_staging {
+		note_number: 5
+	}
+	clear_peak {
+		note_number: 6
+	}
+
+	# Lights.
+	is_muted {
+		note_number: 4
+	}
+	auto_gain_staging_is_on {
+		note_number: 5
+	}
+	has_peaked {
+		note_number: 6
+	}
+}
+
+# Bus 3.
+bus_mapping {
+	treble {
+		controller_number: 24
+	}
+	mid {
+		controller_number: 25
+	}
+	bass {
+		controller_number: 26
+	}
+	gain {
+		controller_number: 24
+	}
+	compressor_threshold {
+		controller_number: 25
+	}
+	fader {
+		controller_number: 27
+	}
+	toggle_mute {
+		note_number: 7
+	}
+	toggle_auto_gain_staging {
+		note_number: 8
+	}
+	clear_peak {
+		note_number: 9
+	}
+
+	# Lights.
+	is_muted {
+		note_number: 7
+	}
+	auto_gain_staging_is_on {
+		note_number: 8
+	}
+	has_peaked {
+		note_number: 9
+	}
+}
+
+# Bus 4.
+bus_mapping {
+	treble {
+		controller_number: 28
+	}
+	mid {
+		controller_number: 29
+	}
+	bass {
+		controller_number: 30
+	}
+	gain {
+		controller_number: 28
+	}
+	compressor_threshold {
+		controller_number: 29
+	}
+	fader {
+		controller_number: 31
+	}
+	toggle_mute {
+		note_number: 10
+	}
+	toggle_auto_gain_staging {
+		note_number: 11
+	}
+	clear_peak {
+		note_number: 12
+	}
+
+	# Lights.
+	is_muted {
+		note_number: 10
+	}
+	auto_gain_staging_is_on {
+		note_number: 11
+	}
+	has_peaked {
+		note_number: 12
+	}
+}
+
+# Bus 5. Note the discontinuity in the controller numbers,
+# but not in the note numbers.
+bus_mapping {
+	treble {
+		controller_number: 46
+	}
+	mid {
+		controller_number: 47
+	}
+	bass {
+		controller_number: 48
+	}
+	gain {
+		controller_number: 46
+	}
+	compressor_threshold {
+		controller_number: 47
+	}
+	fader {
+		controller_number: 49
+	}
+	toggle_mute {
+		note_number: 13
+	}
+	toggle_auto_gain_staging {
+		note_number: 14
+	}
+	clear_peak {
+		note_number: 15
+	}
+
+	# Lights.
+	is_muted {
+		note_number: 13
+	}
+	auto_gain_staging_is_on {
+		note_number: 14
+	}
+	has_peaked {
+		note_number: 15
+	}
+}
+
+# Bus 6.
+bus_mapping {
+	treble {
+		controller_number: 50
+	}
+	mid {
+		controller_number: 51
+	}
+	bass {
+		controller_number: 52
+	}
+	gain {
+		controller_number: 50
+	}
+	compressor_threshold {
+		controller_number: 51
+	}
+	fader {
+		controller_number: 53
+	}
+	toggle_mute {
+		note_number: 16
+	}
+	toggle_auto_gain_staging {
+		note_number: 17
+	}
+	clear_peak {
+		note_number: 18
+	}
+
+	# Lights.
+	is_muted {
+		note_number: 16
+	}
+	auto_gain_staging_is_on {
+		note_number: 17
+	}
+	has_peaked {
+		note_number: 18
+	}
+}
+
+# Bus 7.
+bus_mapping {
+	treble {
+		controller_number: 54
+	}
+	mid {
+		controller_number: 55
+	}
+	bass {
+		controller_number: 56
+	}
+	gain {
+		controller_number: 54
+	}
+	compressor_threshold {
+		controller_number: 55
+	}
+	fader {
+		controller_number: 57
+	}
+	toggle_mute {
+		note_number: 19
+	}
+	toggle_auto_gain_staging {
+		note_number: 20
+	}
+	clear_peak {
+		note_number: 21
+	}
+
+	# Lights.
+	is_muted {
+		note_number: 19
+	}
+	auto_gain_staging_is_on {
+		note_number: 20
+	}
+	has_peaked {
+		note_number: 21
+	}
+
+	# Global controllers.
+	locut {
+		controller_number: 56
+	}
+}
+
+# Bus 8.
+bus_mapping {
+	treble {
+		controller_number: 58
+	}
+	mid {
+		controller_number: 59
+	}
+	bass {
+		controller_number: 60
+	}
+	gain {
+		controller_number: 58
+	}
+	compressor_threshold {
+		controller_number: 59
+	}
+	fader {
+		controller_number: 61
+	}
+	toggle_mute {
+		note_number: 22
+	}
+	toggle_auto_gain_staging {
+		note_number: 23
+	}
+	clear_peak {
+		note_number: 24
+	}
+
+	# Lights.
+	is_muted {
+		note_number: 22
+	}
+	auto_gain_staging_is_on {
+		note_number: 23
+	}
+	has_peaked {
+		note_number: 24
+	}
+
+	# Global controllers.
+	limiter_threshold {
+		controller_number: 60
+	}
+}
